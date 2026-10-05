@@ -1,0 +1,8 @@
+# x^5 + y^5 + z^5 = n for n = 100..200 (99 < n < 201), integers with |x|,|y|,|z| <= 10^7  (RANGE = 10,000,000)
+# Each line was re-checked with exact big-integer arithmetic.  (s,z) candidates examined: 1106507175
+# No infinite families exist for these n (they would need n = c^5; 3^5 = 243 > 200).
+#
+# format: n x y z   (x <= y <= z)
+179 -2 -2 3
+#
+# Every other n in 100..200 has no solution in this range.
