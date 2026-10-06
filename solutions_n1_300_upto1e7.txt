@@ -1,0 +1,367 @@
+# x^5 + y^5 + z^5 = n :  ALL integer solutions with -10^7 <= x, y, z <= 10^7,  for every n = 1..300
+#
+# NO SOLUTIONS OVER Z AT ALL (not just in the box):   n == 4, 5, 6, 7  (mod 11)
+#   Proof.  If 11 does not divide x then (x^5)^2 = x^10 == 1 (mod 11) by Fermat, so x^5 == +1 or -1 (mod 11); and 0^5 = 0.
+#   Hence x^5 + y^5 + z^5 (mod 11) lies in {-3,...,3} = {0,1,2,3,8,9,10}: the residues 4,5,6,7 never occur.
+#   (Check: modulo every prime power q <= 3000, only q = 11, 121, 1331 -- the same obstruction -- fail to be hit by
+#    all residues, so there is no further congruence obstruction at those moduli.)
+#   In 1..300 this excludes 108 values of n (27 per residue class):
+#     n == 4 (mod 11): 4 15 26 37 48 59 70 81 92 103 114 125 136 147 158 169 180 191 202 213 224 235 246 257 268 279 290
+#     n == 5 (mod 11): 5 16 27 38 49 60 71 82 93 104 115 126 137 148 159 170 181 192 203 214 225 236 247 258 269 280 291
+#     n == 6 (mod 11): 6 17 28 39 50 61 72 83 94 105 116 127 138 149 160 171 182 193 204 215 226 237 248 259 270 281 292
+#     n == 7 (mod 11): 7 18 29 40 51 62 73 84 95 106 117 128 139 150 161 172 183 194 205 216 227 238 249 260 271 282 293
+#
+# Triples below are unordered and written sorted (x <= y <= z); every permutation of a listed triple is also a solution.
+#
+# SUMMARY  (300 values of n)
+#    25  n with at least one solution:  1 2 3 12 30 31 32 33 34 63 64 65 96 179 210 211 212 241 242 243 244 245 274 275 276
+#   108  n with no solution over Z (n == 4,5,6,7 mod 11, listed above)
+#   167  n with no solution in the box and not excluded by the congruence (solutions outside the box are not ruled out)
+#   Solutions: 22 isolated ones, for 22 values of n (largest |variable| is 17, for n = 12; all others have |variable| <= 3),
+#              and 3 infinite families, for n = c^5 with c = 1, 2, 3 (below).
+#
+# INFINITE FAMILIES  (a, -a, c) with c^5 = n, for every integer a, in any of the 3 slots
+#   n = 1   : (a, -a, 1)
+#   n = 32  : (a, -a, 2)
+#   n = 243 : (a, -a, 3)
+#   In the box each family has 10,000,001 unordered triples (a = 0..10^7) = 60,000,000 ordered triples (6*10^7).
+#   For these three n there are no other solutions.
+#
+# COVERAGE AND METHOD  (searched for all n = 1..300; for the 108 congruence-excluded n the proof above already settles it)
+#   Search program (solve.cpp): modular fifth roots + exact discriminant tests, pruned by sign/size structure.
+#     n = 1..99   : all |x|,|y|,|z| <= 9,999,999
+#     n = 100..300: all |x|,|y|,|z| <= 10^7
+#   Independent exhaustive scan (slab_scan.py, no pruning, shares no code) of the boundary slab max|variable| = 10^7
+#   for all n = 1..300: it found only the family members (-10^7, 1, 10^7) for n=1, (-10^7, 2, 10^7) for n=32,
+#   (-10^7, 3, 10^7) for n=243.
+#   Every listed solution was re-checked with exact big-integer arithmetic.  The search program was cross-checked
+#   against brute force (n=1..99 up to R=5000, n=100..200 up to R=12000, n=201..300 up to R=3000) and against
+#   unit tests of its fifth-root and 256-bit layers.  Completeness in the box rests on that validation and on the
+#   pruning lemmas of the write-up; it is a computation, not a formal proof.  (As the congruence predicts, the
+#   search found nothing for the 108 excluded n.)
+#
+# ISOLATED SOLUTIONS, machine readable:  n x y z
+2 0 1 1
+3 1 1 1
+12 -17 13 16
+30 -1 -1 2
+31 -1 0 2
+33 0 1 2
+34 1 1 2
+63 -1 2 2
+64 0 2 2
+65 1 2 2
+96 2 2 2
+179 -2 -2 3
+210 -2 -1 3
+211 -2 0 3
+212 -2 1 3
+241 -1 -1 3
+242 -1 0 3
+244 0 1 3
+245 1 1 3
+274 -1 2 3
+275 0 2 3
+276 1 2 3
+#
+# PER-n LISTING
+n=1   : INFINITE FAMILY (a, -a, 1), any integer a; no other solutions
+n=2   : (0, 1, 1)
+n=3   : (1, 1, 1)
+n=4   : none over Z  (n == 4 mod 11)
+n=5   : none over Z  (n == 5 mod 11)
+n=6   : none over Z  (n == 6 mod 11)
+n=7   : none over Z  (n == 7 mod 11)
+n=8   : none in the box
+n=9   : none in the box
+n=10  : none in the box
+n=11  : none in the box
+n=12  : (-17, 13, 16)
+n=13  : none in the box
+n=14  : none in the box
+n=15  : none over Z  (n == 4 mod 11)
+n=16  : none over Z  (n == 5 mod 11)
+n=17  : none over Z  (n == 6 mod 11)
+n=18  : none over Z  (n == 7 mod 11)
+n=19  : none in the box
+n=20  : none in the box
+n=21  : none in the box
+n=22  : none in the box
+n=23  : none in the box
+n=24  : none in the box
+n=25  : none in the box
+n=26  : none over Z  (n == 4 mod 11)
+n=27  : none over Z  (n == 5 mod 11)
+n=28  : none over Z  (n == 6 mod 11)
+n=29  : none over Z  (n == 7 mod 11)
+n=30  : (-1, -1, 2)
+n=31  : (-1, 0, 2)
+n=32  : INFINITE FAMILY (a, -a, 2), any integer a; no other solutions
+n=33  : (0, 1, 2)
+n=34  : (1, 1, 2)
+n=35  : none in the box
+n=36  : none in the box
+n=37  : none over Z  (n == 4 mod 11)
+n=38  : none over Z  (n == 5 mod 11)
+n=39  : none over Z  (n == 6 mod 11)
+n=40  : none over Z  (n == 7 mod 11)
+n=41  : none in the box
+n=42  : none in the box
+n=43  : none in the box
+n=44  : none in the box
+n=45  : none in the box
+n=46  : none in the box
+n=47  : none in the box
+n=48  : none over Z  (n == 4 mod 11)
+n=49  : none over Z  (n == 5 mod 11)
+n=50  : none over Z  (n == 6 mod 11)
+n=51  : none over Z  (n == 7 mod 11)
+n=52  : none in the box
+n=53  : none in the box
+n=54  : none in the box
+n=55  : none in the box
+n=56  : none in the box
+n=57  : none in the box
+n=58  : none in the box
+n=59  : none over Z  (n == 4 mod 11)
+n=60  : none over Z  (n == 5 mod 11)
+n=61  : none over Z  (n == 6 mod 11)
+n=62  : none over Z  (n == 7 mod 11)
+n=63  : (-1, 2, 2)
+n=64  : (0, 2, 2)
+n=65  : (1, 2, 2)
+n=66  : none in the box
+n=67  : none in the box
+n=68  : none in the box
+n=69  : none in the box
+n=70  : none over Z  (n == 4 mod 11)
+n=71  : none over Z  (n == 5 mod 11)
+n=72  : none over Z  (n == 6 mod 11)
+n=73  : none over Z  (n == 7 mod 11)
+n=74  : none in the box
+n=75  : none in the box
+n=76  : none in the box
+n=77  : none in the box
+n=78  : none in the box
+n=79  : none in the box
+n=80  : none in the box
+n=81  : none over Z  (n == 4 mod 11)
+n=82  : none over Z  (n == 5 mod 11)
+n=83  : none over Z  (n == 6 mod 11)
+n=84  : none over Z  (n == 7 mod 11)
+n=85  : none in the box
+n=86  : none in the box
+n=87  : none in the box
+n=88  : none in the box
+n=89  : none in the box
+n=90  : none in the box
+n=91  : none in the box
+n=92  : none over Z  (n == 4 mod 11)
+n=93  : none over Z  (n == 5 mod 11)
+n=94  : none over Z  (n == 6 mod 11)
+n=95  : none over Z  (n == 7 mod 11)
+n=96  : (2, 2, 2)
+n=97  : none in the box
+n=98  : none in the box
+n=99  : none in the box
+n=100 : none in the box
+n=101 : none in the box
+n=102 : none in the box
+n=103 : none over Z  (n == 4 mod 11)
+n=104 : none over Z  (n == 5 mod 11)
+n=105 : none over Z  (n == 6 mod 11)
+n=106 : none over Z  (n == 7 mod 11)
+n=107 : none in the box
+n=108 : none in the box
+n=109 : none in the box
+n=110 : none in the box
+n=111 : none in the box
+n=112 : none in the box
+n=113 : none in the box
+n=114 : none over Z  (n == 4 mod 11)
+n=115 : none over Z  (n == 5 mod 11)
+n=116 : none over Z  (n == 6 mod 11)
+n=117 : none over Z  (n == 7 mod 11)
+n=118 : none in the box
+n=119 : none in the box
+n=120 : none in the box
+n=121 : none in the box
+n=122 : none in the box
+n=123 : none in the box
+n=124 : none in the box
+n=125 : none over Z  (n == 4 mod 11)
+n=126 : none over Z  (n == 5 mod 11)
+n=127 : none over Z  (n == 6 mod 11)
+n=128 : none over Z  (n == 7 mod 11)
+n=129 : none in the box
+n=130 : none in the box
+n=131 : none in the box
+n=132 : none in the box
+n=133 : none in the box
+n=134 : none in the box
+n=135 : none in the box
+n=136 : none over Z  (n == 4 mod 11)
+n=137 : none over Z  (n == 5 mod 11)
+n=138 : none over Z  (n == 6 mod 11)
+n=139 : none over Z  (n == 7 mod 11)
+n=140 : none in the box
+n=141 : none in the box
+n=142 : none in the box
+n=143 : none in the box
+n=144 : none in the box
+n=145 : none in the box
+n=146 : none in the box
+n=147 : none over Z  (n == 4 mod 11)
+n=148 : none over Z  (n == 5 mod 11)
+n=149 : none over Z  (n == 6 mod 11)
+n=150 : none over Z  (n == 7 mod 11)
+n=151 : none in the box
+n=152 : none in the box
+n=153 : none in the box
+n=154 : none in the box
+n=155 : none in the box
+n=156 : none in the box
+n=157 : none in the box
+n=158 : none over Z  (n == 4 mod 11)
+n=159 : none over Z  (n == 5 mod 11)
+n=160 : none over Z  (n == 6 mod 11)
+n=161 : none over Z  (n == 7 mod 11)
+n=162 : none in the box
+n=163 : none in the box
+n=164 : none in the box
+n=165 : none in the box
+n=166 : none in the box
+n=167 : none in the box
+n=168 : none in the box
+n=169 : none over Z  (n == 4 mod 11)
+n=170 : none over Z  (n == 5 mod 11)
+n=171 : none over Z  (n == 6 mod 11)
+n=172 : none over Z  (n == 7 mod 11)
+n=173 : none in the box
+n=174 : none in the box
+n=175 : none in the box
+n=176 : none in the box
+n=177 : none in the box
+n=178 : none in the box
+n=179 : (-2, -2, 3)
+n=180 : none over Z  (n == 4 mod 11)
+n=181 : none over Z  (n == 5 mod 11)
+n=182 : none over Z  (n == 6 mod 11)
+n=183 : none over Z  (n == 7 mod 11)
+n=184 : none in the box
+n=185 : none in the box
+n=186 : none in the box
+n=187 : none in the box
+n=188 : none in the box
+n=189 : none in the box
+n=190 : none in the box
+n=191 : none over Z  (n == 4 mod 11)
+n=192 : none over Z  (n == 5 mod 11)
+n=193 : none over Z  (n == 6 mod 11)
+n=194 : none over Z  (n == 7 mod 11)
+n=195 : none in the box
+n=196 : none in the box
+n=197 : none in the box
+n=198 : none in the box
+n=199 : none in the box
+n=200 : none in the box
+n=201 : none in the box
+n=202 : none over Z  (n == 4 mod 11)
+n=203 : none over Z  (n == 5 mod 11)
+n=204 : none over Z  (n == 6 mod 11)
+n=205 : none over Z  (n == 7 mod 11)
+n=206 : none in the box
+n=207 : none in the box
+n=208 : none in the box
+n=209 : none in the box
+n=210 : (-2, -1, 3)
+n=211 : (-2, 0, 3)
+n=212 : (-2, 1, 3)
+n=213 : none over Z  (n == 4 mod 11)
+n=214 : none over Z  (n == 5 mod 11)
+n=215 : none over Z  (n == 6 mod 11)
+n=216 : none over Z  (n == 7 mod 11)
+n=217 : none in the box
+n=218 : none in the box
+n=219 : none in the box
+n=220 : none in the box
+n=221 : none in the box
+n=222 : none in the box
+n=223 : none in the box
+n=224 : none over Z  (n == 4 mod 11)
+n=225 : none over Z  (n == 5 mod 11)
+n=226 : none over Z  (n == 6 mod 11)
+n=227 : none over Z  (n == 7 mod 11)
+n=228 : none in the box
+n=229 : none in the box
+n=230 : none in the box
+n=231 : none in the box
+n=232 : none in the box
+n=233 : none in the box
+n=234 : none in the box
+n=235 : none over Z  (n == 4 mod 11)
+n=236 : none over Z  (n == 5 mod 11)
+n=237 : none over Z  (n == 6 mod 11)
+n=238 : none over Z  (n == 7 mod 11)
+n=239 : none in the box
+n=240 : none in the box
+n=241 : (-1, -1, 3)
+n=242 : (-1, 0, 3)
+n=243 : INFINITE FAMILY (a, -a, 3), any integer a; no other solutions
+n=244 : (0, 1, 3)
+n=245 : (1, 1, 3)
+n=246 : none over Z  (n == 4 mod 11)
+n=247 : none over Z  (n == 5 mod 11)
+n=248 : none over Z  (n == 6 mod 11)
+n=249 : none over Z  (n == 7 mod 11)
+n=250 : none in the box
+n=251 : none in the box
+n=252 : none in the box
+n=253 : none in the box
+n=254 : none in the box
+n=255 : none in the box
+n=256 : none in the box
+n=257 : none over Z  (n == 4 mod 11)
+n=258 : none over Z  (n == 5 mod 11)
+n=259 : none over Z  (n == 6 mod 11)
+n=260 : none over Z  (n == 7 mod 11)
+n=261 : none in the box
+n=262 : none in the box
+n=263 : none in the box
+n=264 : none in the box
+n=265 : none in the box
+n=266 : none in the box
+n=267 : none in the box
+n=268 : none over Z  (n == 4 mod 11)
+n=269 : none over Z  (n == 5 mod 11)
+n=270 : none over Z  (n == 6 mod 11)
+n=271 : none over Z  (n == 7 mod 11)
+n=272 : none in the box
+n=273 : none in the box
+n=274 : (-1, 2, 3)
+n=275 : (0, 2, 3)
+n=276 : (1, 2, 3)
+n=277 : none in the box
+n=278 : none in the box
+n=279 : none over Z  (n == 4 mod 11)
+n=280 : none over Z  (n == 5 mod 11)
+n=281 : none over Z  (n == 6 mod 11)
+n=282 : none over Z  (n == 7 mod 11)
+n=283 : none in the box
+n=284 : none in the box
+n=285 : none in the box
+n=286 : none in the box
+n=287 : none in the box
+n=288 : none in the box
+n=289 : none in the box
+n=290 : none over Z  (n == 4 mod 11)
+n=291 : none over Z  (n == 5 mod 11)
+n=292 : none over Z  (n == 6 mod 11)
+n=293 : none over Z  (n == 7 mod 11)
+n=294 : none in the box
+n=295 : none in the box
+n=296 : none in the box
+n=297 : none in the box
+n=298 : none in the box
+n=299 : none in the box
+n=300 : none in the box
