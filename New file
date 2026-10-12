@@ -1,0 +1,25 @@
+// brute-force reference, O(B^2): prints "x y z d" for every x <= y < z <= B (z >= zmin) with d = x^5 + y^5 - z^5, |d| <= NMAX
+// usage: bf_ref B NMAX zmin
+#include <bits/stdc++.h>
+using namespace std;
+typedef unsigned __int128 u128;
+typedef long long ll;
+int main(int argc, char** argv) {
+    ll B = atoll(argv[1]), NMAX = atoll(argv[2]), zmin = atoll(argv[3]);
+    ll top = B + B / 5 + 10;
+    vector<u128> p5(top + 2);
+    for (ll i = 0; i < (ll)p5.size(); ++i) { u128 s = (u128)i * i; p5[i] = s * s * i; }
+    for (ll x = 1; x <= B; ++x) {
+        ll z = x;
+        for (ll y = x; y <= B; ++y) {
+            u128 s = p5[x] + p5[y];
+            if (z < y) z = y;
+            while (p5[z + 1] <= s) ++z;
+            if (z > B) break;
+            u128 d1 = s - p5[z];
+            if (d1 <= (u128)NMAX && z >= zmin && z > y) printf("%lld %lld %lld %lld\n", x, y, z, (ll)d1);
+            u128 d2 = p5[z + 1] - s;
+            if (d2 <= (u128)NMAX && z + 1 >= zmin && z + 1 <= B) printf("%lld %lld %lld %lld\n", x, y, z + 1, -(ll)d2);
+        }
+    }
+}
